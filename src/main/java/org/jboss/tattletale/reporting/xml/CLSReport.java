@@ -19,47 +19,36 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.tattletale.reporting.abstracts;
-
-import org.jboss.tattletale.profiles.Profile;
-import org.jboss.tattletale.reporting.abstracts.AbstractReport;
-import org.jboss.tattletale.reporting.classloader.ClassLoaderStructure;
+package org.jboss.tattletale.reporting.xml;
 
 import java.util.List;
+
+import org.jboss.tattletale.profiles.Profile;
+import org.jboss.tattletale.reporting.abstracts.CLSReportAbstract;
+import org.jboss.tattletale.reporting.classloader.ClassLoaderStructure;
 
 /**
  * Abstract base class for all CLS based reports.
  *
  * @author <a href="mailto:torben.jaeger@jit-consulting.de">Torben Jaeger</a>
  */
-public abstract class CLSReportAbstract extends AbstractReport
+public abstract class CLSReport extends CLSReportAbstract
 {
    /** Known Profiles */
    private List<Profile> known;
 
    /** the CLS */
    private ClassLoaderStructure cls = null;
-
-   /**
-    * Constructor
-    *
-    * @param id        The report id
-    * @param severity  The severity
-    * @param name      The name of the report
-    * @param directory The name of the output directory
-    */
-   public CLSReportAbstract(String id, int severity, String name, String directory)
-   {
-      super(id, severity, name, directory);
-   }
-
+   
+   
+   
    /**
     * get the ClassLoaderStructure
     *
     * @return the ClassLoaderStructure
     * @see org.jboss.tattletale.reporting.classloader.ClassLoaderStructure
     */
-  protected  ClassLoaderStructure getCLS()
+   protected  ClassLoaderStructure getCLS()
    {
       return cls;
    }
@@ -80,7 +69,7 @@ public abstract class CLSReportAbstract extends AbstractReport
       {
          try
          {
-            Class c = CLSReportAbstract.class.getClassLoader().loadClass(classloaderStructure);
+            Class c = CLSReport.class.getClassLoader().loadClass(classloaderStructure);
             cls = (ClassLoaderStructure) c.newInstance();
          }
          catch (Exception ntd)

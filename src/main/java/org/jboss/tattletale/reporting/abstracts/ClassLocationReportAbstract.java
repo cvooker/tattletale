@@ -32,6 +32,7 @@ import org.jboss.tattletale.reporting.abstracts.AbstractReport;
 import org.jboss.tattletale.reporting.common.ReportSeverity;
 import org.jboss.tattletale.reporting.common.ReportStatus;
 import org.jboss.tattletale.reporting.interfaces.Filter;
+import org.jboss.tattletale.reporting.xml.KeyFilter;
 /**
  * Class location report
  *
@@ -66,82 +67,6 @@ public abstract class ClassLocationReportAbstract extends AbstractReport
    }
 
    /**
-    * write the report's content
-    *
-    * @param bw the BufferedWriter to use
-    * @throws IOException if an error occurs
-    
-   @Override
-   public void writeHtmlBodyContent(BufferedWriter bw) throws IOException
-   {
-      bw.write("<elements>" + Dump.newLine());
-
-      boolean odd = true;
-
-      for (Map.Entry<String, SortedSet<String>> entry : gProvides.entrySet())
-      {
-         String clz = (String) ((Map.Entry) entry).getKey();
-         SortedSet archives = (SortedSet) ((Map.Entry) entry).getValue();
-         boolean filtered = isFiltered(clz);
-
-         if (!filtered)
-         {
-            if (archives.size() > 1)
-            {
-               status = ReportStatus.YELLOW;
-            }
-         }
-
-         bw.write("  <element>" + Dump.newLine());
-         
-        
-         bw.write("     <class>" + clz + "</class>" + Dump.newLine());
-         if (!filtered)
-         {
-            bw.write("        <jar_files>");
-         }
-         else
-         {
-            bw.write("        <jar_files>");
-         }
-
-         Iterator sit = archives.iterator();
-         while (sit.hasNext())
-         {
-            String archive = (String) sit.next();
-            int finalDot = archive.lastIndexOf(".");
-            String extension = archive.substring(finalDot + 1);
-
-            bw.write("../" + extension + "/" + archive + ".xml " + archive + Dump.newLine());
-
-            if (sit.hasNext())
-            {
-               bw.write(", ");
-            }
-         }
-
-         bw.write("</jar_files>" + Dump.newLine());
-         bw.write("  </element>" + Dump.newLine());
-
-         odd = !odd;
-      }
-
-      bw.write("</elements>" + Dump.newLine());
-   }
-
-   @Override
-   public void writeHtmlBodyHeader(BufferedWriter bw) throws IOException
-   {
-      bw.write("<reporting>" + Dump.newLine());
-      bw.write(Dump.newLine());
-
-      bw.write("<h1>" + NAME + "</h1>" + Dump.newLine());
-
-      bw.write("../index.xml" + Dump.newLine());
-   
-   }
-*/
-   /**
     * Create filter
     *
     * @return The filter
@@ -149,6 +74,6 @@ public abstract class ClassLocationReportAbstract extends AbstractReport
    @Override
    protected Filter createFilter()
    {
-      return new KeyFilterAbstract();
+      return new KeyFilter();
    }
 }

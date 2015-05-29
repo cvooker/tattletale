@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.tattletale.reporting.abstracts;
+package org.jboss.tattletale.reporting.xml;
 
 import org.jboss.tattletale.Version;
 import org.jboss.tattletale.core.NestableArchive;
@@ -28,15 +28,15 @@ import org.jboss.tattletale.core.NestableArchive;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import org.jboss.tattletale.reporting.abstracts.WarReportAbstract;
 import org.jboss.tattletale.reporting.common.*;
-import org.jboss.tattletale.reporting.xml.NestableReport;
 
 /**
  * This type of report is to .war files as to {@link JarReport} is to .jar files.
  *
  * @author Navin Surtani
  */
-public abstract class WarReportAbstract extends NestableReport
+public class WarReport extends WarReportAbstract
 {
    /** DIRECTORY */
    private static final String DIRECTORY = "war";
@@ -52,7 +52,7 @@ public abstract class WarReportAbstract extends NestableReport
     *
     * @param nestableArchive - the war nestableArchive.
     */
-   public WarReportAbstract(NestableArchive nestableArchive)
+   public WarReport(NestableArchive nestableArchive)
    {
       this(nestableArchive, 1);
    }
@@ -63,7 +63,7 @@ public abstract class WarReportAbstract extends NestableReport
     * @param nestableArchive The nestableArchive
     * @param depth   The level of depth at which this report would lie
     */
-   public WarReportAbstract(NestableArchive nestableArchive, int depth)
+   public WarReport(NestableArchive nestableArchive, int depth)
    {
       super (DIRECTORY, ReportSeverity.INFO, nestableArchive);
       StringBuffer sb = new StringBuffer(nestableArchive.getName());
@@ -87,14 +87,14 @@ public abstract class WarReportAbstract extends NestableReport
     *
     * @param bw the buffered writer
     * @throws IOException if an error occurs
-    *
+    */
 
-   @Override
-   public void writeHtmlHead(BufferedWriter bw) throws IOException
+
+   public void writeHead(BufferedWriter bw) throws IOException
    {
       if (depth == 1)
       {
-         super.writeHtmlHead(bw);
+         super.writeHead(bw);
       }
       else
       {
@@ -111,7 +111,7 @@ public abstract class WarReportAbstract extends NestableReport
          bw.write("</info>" + Dump.newLine());
 
       }
-   }*/
+   }
 
    /**
     * returns a war report specific writer.

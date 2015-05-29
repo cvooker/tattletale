@@ -24,7 +24,7 @@ package org.jboss.tattletale.reporting.interfaces;
 
 import java.io.File;
 
-import org.jboss.tattletale.reporting.Dump;
+import org.jboss.tattletale.reporting.xml.Dump;
 
 /**
  * Top-level interface that would define what all report types would have to satisfy.

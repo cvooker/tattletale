@@ -33,6 +33,7 @@ import java.util.Iterator;
 
 import org.jboss.tattletale.reporting.common.*;
 import org.jboss.tattletale.reporting.interfaces.*;
+import org.jboss.tattletale.reporting.xml.KeyFilter;
 import org.jboss.tattletale.reporting.common.*;
 /**
  * Multiple locations report
@@ -55,97 +56,6 @@ public abstract class MultipleLocationsReportAbstract extends AbstractReport
    }
 
    /**
-    * write out the report's content
-    *
-    * @param bw the writer to use
-    * @throws IOException if an error occurs
-    *
-   public void writeHtmlBodyContent(BufferedWriter bw) throws IOException
-   {
-      bw.write("<elements>" + Dump.newLine());
-
-     
-      //bw.write("     <th>Name</th>" + Dump.newLine());
-      //bw.write("     <th>Location</th>" + Dump.newLine());
-      
-      recursivelyWriteContent(bw, archives);
-      bw.write("</elements>" + Dump.newLine());
-   }
-
-   private void recursivelyWriteContent(BufferedWriter bw, Collection<Archive> archives) throws IOException
-   {
-      boolean odd = true;
-
-      for (Archive a : archives)
-      {
-         if (a instanceof NestableArchive)
-         {
-            NestableArchive nestableArchive = (NestableArchive) a;
-            recursivelyWriteContent(bw, nestableArchive.getSubArchives());
-         }
-         else if (a.getLocations().size() > 1)
-         {
-            boolean filtered = isFiltered(a.getName());
-
-            if (!filtered)
-            {
-               status = ReportStatus.YELLOW;
-            }
-
-            if (odd)
-            {
-               bw.write("  <element class=\"rowodd\">" + Dump.newLine());
-            }
-            else
-            {
-               bw.write("  <element class=\"roweven\">" + Dump.newLine());
-            }
-            bw.write("     <Name>../jar/" + a.getName() + ".xml" +
-                     a.getName() + "</Name>" + Dump.newLine());
-            if (!filtered)
-            {
-               bw.write("     <Location>");
-            }
-            
-            Iterator<Location> lit = a.getLocations().iterator();
-            while (lit.hasNext())
-            {
-               Location location = lit.next();
-               bw.write(location.getFilename());
-
-               if (lit.hasNext())
-               {
-                  bw.write("<br>");
-               }
-            }
-
-            bw.write("</Location>" + Dump.newLine());
-            bw.write("  </element>" + Dump.newLine());
-
-            odd = !odd;
-         }
-      }
-
-   }
-
-   /**
-    * write out the header of the report's content
-    *
-    * @param bw the writer to use
-    * @throws IOException if an errror occurs
-    *
-   public void writeHtmlBodyHeader(BufferedWriter bw) throws IOException
-   {
-      bw.write("<reporting>" + Dump.newLine());
-      bw.write(Dump.newLine());
-
-      bw.write("<h1>" + NAME + "</h1>" + Dump.newLine());
-
-      bw.write("../index.xml>" + Dump.newLine());
-     
-   }
-*/
-   /**
     * Create filter
     *
     * @return The filter
@@ -153,6 +63,6 @@ public abstract class MultipleLocationsReportAbstract extends AbstractReport
    @Override
    protected Filter createFilter()
    {
-      return new KeyFilter();
+	   return new KeyFilter();
    }
 }

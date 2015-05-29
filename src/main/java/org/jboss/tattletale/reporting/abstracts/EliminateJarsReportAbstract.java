@@ -35,6 +35,7 @@ import org.jboss.tattletale.reporting.abstracts.AbstractReport;
 import org.jboss.tattletale.reporting.common.ReportSeverity;
 import org.jboss.tattletale.reporting.common.ReportStatus;
 import org.jboss.tattletale.reporting.interfaces.Filter;
+import org.jboss.tattletale.reporting.xml.KeyFilter;
 /**
  * Eliminate JAR files with multiple versions
  *
@@ -211,6 +212,6 @@ public abstract class EliminateJarsReportAbstract extends AbstractReport
    @Override
    protected Filter createFilter()
    {
-      return new KeyFilterAbstract();
+	   return new KeyFilter();
    }
 }

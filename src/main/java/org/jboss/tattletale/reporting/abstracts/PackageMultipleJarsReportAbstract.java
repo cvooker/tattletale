@@ -33,6 +33,7 @@ import java.util.TreeSet;
 import org.jboss.tattletale.reporting.abstracts.AbstractReport;
 import org.jboss.tattletale.reporting.common.*;
 import org.jboss.tattletale.reporting.interfaces.*;
+import org.jboss.tattletale.reporting.xml.KeyFilter;
 /**
  * Packages in multiple JAR files report
  *
@@ -67,109 +68,7 @@ public abstract class PackageMultipleJarsReportAbstract extends AbstractReport
       this.gProvides = gProvides;
    }
 
-   /**
-    * write the report's content
-    *
-    * @param bw the BufferedWriter to use
-    * @throws IOException if an error occurs
-    *
-   @Override
-   public void writeHtmlBodyContent(BufferedWriter bw) throws IOException
-   {
-      bw.write("<elements>" + Dump.newLine());
-
-     
-      //bw.write("     <th>Package</th>" + Dump.newLine());
-      //bw.write("     <th>Jar files</th>" + Dump.newLine());
-     
-
-      SortedMap<String, SortedSet<String>> packageProvides = new TreeMap<String, SortedSet<String>>();
-
-      for (Map.Entry<String, SortedSet<String>> entry : gProvides.entrySet())
-      {
-         String clz = (String) ((Map.Entry) entry).getKey();
-         SortedSet archives = (SortedSet) ((Map.Entry) entry).getValue();
-
-         String packageName = null;
-
-         if (clz.indexOf('.') == -1)
-         {
-            packageName = "";
-         }
-         else
-         {
-            packageName = clz.substring(0, clz.lastIndexOf('.'));
-         }
-
-         SortedSet<String> packageJars = packageProvides.get(packageName);
-         if (packageJars == null)
-         {
-            packageJars = new TreeSet<String>();
-         }
-
-         packageJars.addAll(archives);
-
-         packageProvides.put(packageName, packageJars);
-      }
-
-      boolean odd = true;
-
-      for (Map.Entry<String, SortedSet<String>> entry : packageProvides.entrySet())
-      {
-         String pkg = (String) ((Map.Entry) entry).getKey();
-         SortedSet archives = (SortedSet) ((Map.Entry) entry).getValue();
-
-         if (archives.size() > 1)
-         {
-            boolean filtered = isFiltered(pkg);
-            if (!filtered)
-            {
-               status = ReportStatus.YELLOW;
-            }
-            
-               bw.write("  <element>" + Dump.newLine());
-            
-           
-            bw.write("     <Package>" + pkg + "</Package>" + Dump.newLine());
-            
-            bw.write("<Jar_files>");
-            
-            
-
-            Iterator sit = archives.iterator();
-            while (sit.hasNext())
-            {
-               String archive = (String) sit.next();
-               bw.write("<../jar/" + archive + ".xml" + archive + Dump.newLine());
-
-               if (sit.hasNext())
-               {
-                  bw.write(", ");
-               }
-            }
-
-            bw.write("</Jar_files>" + Dump.newLine());
-            bw.write("  </element>" + Dump.newLine());
-
-            odd = !odd;
-         }
-      }
-
-      bw.write("</elements>" + Dump.newLine());
-   }
-
-   @Override
-   public void writeHtmlBodyHeader(BufferedWriter bw) throws IOException
-   {
-      bw.write("<reporting>" + Dump.newLine());
-      bw.write(Dump.newLine());
-
-      bw.write("<h1>" + NAME + "</h1>" + Dump.newLine());
-
-      bw.write("../index.xml>" + Dump.newLine());
-     
-   }
-*/
+  
    /**
     * Create filter
     *

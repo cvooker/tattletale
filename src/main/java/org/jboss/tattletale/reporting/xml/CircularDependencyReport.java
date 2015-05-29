@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.tattletale.reporting.abstracts;
+package org.jboss.tattletale.reporting.xml;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -34,17 +34,17 @@ import java.util.TreeSet;
 import org.jboss.tattletale.core.Archive;
 import org.jboss.tattletale.core.ArchiveTypes;
 import org.jboss.tattletale.core.NestableArchive;
+import org.jboss.tattletale.reporting.abstracts.CircularDependencyReportAbstract;
 import org.jboss.tattletale.reporting.common.ReportSeverity;
 import org.jboss.tattletale.reporting.common.ReportStatus;
 import org.jboss.tattletale.reporting.interfaces.Filter;
-import org.jboss.tattletale.reporting.xml.KeyFilter;
 
 /**
  * Circular dependency report
  *
  * @author Jesper Pedersen <jesper.pedersen@jboss.org>
  */
-public abstract class CircularDependencyReportAbstract extends CLSReportAbstract
+public class CircularDependencyReport extends CircularDependencyReportAbstract
 {
    /** NAME */
    private static final String NAME = "Circular Dependency";
@@ -53,18 +53,15 @@ public abstract class CircularDependencyReportAbstract extends CLSReportAbstract
    private static final String DIRECTORY = "circulardependency";
 
    /** Constructor */
-   public CircularDependencyReportAbstract()
-   {
-      super(DIRECTORY, ReportSeverity.ERROR, NAME, DIRECTORY);
-   }
+ 
 
    /**
     * write out the report's content
     *
     * @param bw the writer to use
     * @throws IOException if an error occurs
-    
-   public void writeHtmlBodyContent(BufferedWriter bw) throws IOException
+    */
+   public void writeBodyContent(BufferedWriter bw) throws IOException
    {
       bw.write("<elements>" + Dump.newLine());
 
@@ -172,59 +169,16 @@ public abstract class CircularDependencyReportAbstract extends CLSReportAbstract
 
       bw.write("</elements>" + Dump.newLine());
    }
-*/
-   protected SortedMap<String, SortedSet<String>> recursivelyBuildDependsOnFromArchive(Collection<Archive> archives)
-   {
-      SortedMap<String, SortedSet<String>> dependsOnMap = new TreeMap<String, SortedSet<String>>();
-      for (Archive archive : archives)
-      {
-         if (archive instanceof NestableArchive)
-         {
-            NestableArchive nestableArchive = (NestableArchive) archive;
-            SortedMap<String, SortedSet<String>> subMap = recursivelyBuildDependsOnFromArchive(nestableArchive
-                  .getSubArchives());
-            dependsOnMap.putAll(subMap);
-         }
-         else
-         {
-            SortedSet<String> result = dependsOnMap.get(archive.getName());
-            if (result == null)
-            {
-               result = new TreeSet<String>();
-            }
 
-            for (String require : archive.getRequires())
-            {
-               boolean found = false;
-               Iterator<Archive> ait = archives.iterator();
-               while (!found && ait.hasNext())
-               {
-                  Archive a = ait.next();
-
-                  if (a.getType() == ArchiveTypes.JAR)
-                  {
-                     if (a.doesProvide(require) && (getCLS() == null || getCLS().isVisible(archive, a)))
-                     {
-                        result.add(a.getName());
-                        found = true;
-                     }
-                  }
-               }
-            }
-
-            dependsOnMap.put(archive.getName(), result);
-         }
-      }
-      return dependsOnMap;
-   }
+   
 
    /**
     * write out the header of the report's content
     *
     * @param bw the writer to use
     * @throws IOException if an errror occurs
-    
-   public void writeHtmlBodyHeader(BufferedWriter bw) throws IOException
+    */
+   public void writeBodyHeader(BufferedWriter bw) throws IOException
    {
       bw.write("<reporting>" + Dump.newLine());
       bw.write(Dump.newLine());
@@ -234,8 +188,8 @@ public abstract class CircularDependencyReportAbstract extends CLSReportAbstract
       bw.write("../index.xml" + Dump.newLine());
       
    }
-*/
-   /*
+
+   /**
     * Get depends on
     *
     * @param scanArchive The scan archive
@@ -269,6 +223,6 @@ public abstract class CircularDependencyReportAbstract extends CLSReportAbstract
    @Override
    protected Filter createFilter()
    {
-	   return new KeyFilter();
+      return new KeyFilter();
    }
 }

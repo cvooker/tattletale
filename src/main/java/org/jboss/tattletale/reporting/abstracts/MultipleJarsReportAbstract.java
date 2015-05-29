@@ -31,6 +31,7 @@ import java.util.SortedSet;
 import org.jboss.tattletale.reporting.abstracts.AbstractReport;
 import org.jboss.tattletale.reporting.common.*;
 import org.jboss.tattletale.reporting.interfaces.*;
+import org.jboss.tattletale.reporting.xml.KeyFilter;
 /**
  * Multiple jars report
  *
@@ -66,91 +67,6 @@ public abstract class MultipleJarsReportAbstract extends AbstractReport
 
 
    /**
-    * write out the report's content
-    *
-    * @param bw the writer to use
-    * @throws IOException if an error occurs
-    *
-   public void writeHtmlBodyContent(BufferedWriter bw) throws IOException
-   {
-      bw.write("<elements>" + Dump.newLine());
-
-
-      //bw.write("     <th>Class</th>" + Dump.newLine());
-      //bw.write("     <th>Jar files</th>" + Dump.newLine());
-   
-      boolean odd = true;
-
-      for (Map.Entry<String, SortedSet<String>> entry : gProvides.entrySet())
-      {
-
-         String clz = entry.getKey();
-         SortedSet archives = entry.getValue();
-
-         if (archives.size() > 1)
-         {
-            boolean filtered = isFiltered(clz);
-            if (!filtered)
-            {
-               status = ReportStatus.RED;
-            }
-
-            if (odd)
-            {
-               bw.write("  <element class=\"rowodd\">" + Dump.newLine());
-            }
-            else
-            {
-               bw.write("  <element class=\"roweven\">" + Dump.newLine());
-            }
-            bw.write("     <Class>" + clz + "</Class>" + Dump.newLine());
-          
-            
-            bw.write("     <Jar_file>");
-            
-            
-
-            Iterator sit = archives.iterator();
-            while (sit.hasNext())
-            {
-               String archive = (String) sit.next();
-               bw.write("../jar/" + archive + ".xml" + archive + Dump.newLine());
-
-               if (sit.hasNext())
-               {
-                  bw.write(", ");
-               }
-            }
-
-            bw.write("</Jar_file>" + Dump.newLine());
-            bw.write("  </element>" + Dump.newLine());
-
-            odd = !odd;
-         }
-      }
-
-      bw.write("</elements>" + Dump.newLine());
-   }
-
-   sa*
-    * write out the header of the report's content
-    *
-    * @param bw the writer to use
-    * @throws IOException if an errror occurs
-    *
-   public void writeHtmlBodyHeader(BufferedWriter bw) throws IOException
-   {
-      bw.write("<reporting>" + Dump.newLine());
-      bw.write(Dump.newLine());
-
-      bw.write("<h1>" + NAME + "</h1>" + Dump.newLine());
-
-      bw.write("../index.xml" + Dump.newLine());
-     
-   }
-  */
-   
-   /**
     * Create filter
     *
     * @return The filter
@@ -158,6 +74,6 @@ public abstract class MultipleJarsReportAbstract extends AbstractReport
    @Override
    protected Filter createFilter()
    {
-      return new KeyFilter();
+	   return new KeyFilter();
    }
 }

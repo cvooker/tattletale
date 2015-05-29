@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.tattletale.reporting.abstracts;
+package org.jboss.tattletale.reporting.xml;
 
 import org.jboss.tattletale.core.Archive;
 import org.jboss.tattletale.core.ClassesArchive;
@@ -37,6 +37,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import org.jboss.tattletale.reporting.abstracts.GraphvizReportAbstract;
 import org.jboss.tattletale.reporting.common.*;
 /**
  * Graphviz report
@@ -44,7 +46,7 @@ import org.jboss.tattletale.reporting.common.*;
  * @author Jesper Pedersen <jesper.pedersen@jboss.org>
  * @author <a href="mailto:torben.jaeger@jit-consulting.de">Torben Jaeger</a>
  */
-public abstract class GraphvizReportAbstract extends CLSReport
+public class GraphvizReport extends GraphvizReportAbstract
 {
    /** NAME */
    private static final String NAME = "Graphical dependencies";
@@ -58,14 +60,6 @@ public abstract class GraphvizReportAbstract extends CLSReport
    /** Path to the dot application */
    private String graphvizDot;
 
-   /** Constructor */
-   public GraphvizReportAbstract()
-   {
-      super(DIRECTORY, ReportSeverity.INFO, NAME, DIRECTORY);
-
-      this.enableDot = true;
-      this.graphvizDot = "dot";
-   }
 
    /**
     * Set the configuration properties to use in generating the report
@@ -84,8 +78,8 @@ public abstract class GraphvizReportAbstract extends CLSReport
     *
     * @param bw the writer to use
     * @throws IOException if an error occurs
-    
-   public void writeHtmlBodyContent(BufferedWriter bw) throws IOException
+    */
+   public void writeBodyContent(BufferedWriter bw) throws IOException
    {
       bw.write("<elements>" + Dump.newLine());
 
@@ -256,40 +250,15 @@ public abstract class GraphvizReportAbstract extends CLSReport
 
       bw.write("</elements>" + Dump.newLine());
    }
-*/
-   protected SortedSet<String> getRequires(Archive archive)
-   {
-      SortedSet<String> requires = new TreeSet<String>();
 
-      if (archive instanceof NestableArchive)
-      {
-         NestableArchive nestableArchive = (NestableArchive) archive;
-         List<Archive> subArchives = nestableArchive.getSubArchives();
-
-         for (Archive sa : subArchives)
-         {
-            requires.addAll(getRequires(sa));
-         }
-         requires.addAll(nestableArchive.getRequires());
-      }
-      else if (archive instanceof ClassesArchive)
-      {
-         // No op
-      }
-      else
-      {
-         requires.addAll(archive.getRequires());
-      }
-      return requires;
-   }
 
    /**
     * write out the header of the report's content
     *
     * @param bw the writer to use
     * @throws IOException if an errror occurs
-    
-   public void writeHtmlBodyHeader(BufferedWriter bw) throws IOException
+    */
+   public void writeBodyHeader(BufferedWriter bw) throws IOException
    {
       bw.write("<reporting>" + Dump.newLine());
       bw.write(Dump.newLine());
@@ -302,106 +271,5 @@ public abstract class GraphvizReportAbstract extends CLSReport
       bw.write("dependencies.dot");
      
    }
-
-   /**
-    * The dot name for an archive
-    *
-    * @param name The name
-    * @return The dot name
-    */
-   protected String dotName(String name)
-   {
-      int idx = name.indexOf(".jar");
-      if (idx != -1)
-      {
-         name = name.substring(0, idx);
-      }
-
-      return name.replace('-', '_').replace('.', '_');
-   }
-
-   /** Test for the dot application */
-   protected boolean testDot()
-   {
-      try
-      {
-         ProcessBuilder pb = new ProcessBuilder();
-         pb = pb.command(graphvizDot, "-V");
-
-         Process proc = pb.redirectErrorStream(true).start();
-
-         proc.waitFor();
-
-         if (proc.exitValue() != 0)
-         {
-            return false;
-         }
-
-         return true;
-      }
-      catch (InterruptedException ie)
-      {
-         Thread.interrupted();
-      }
-      catch (IOException ioe)
-      {
-         // Ignore
-      }
-
-      return false;
-   }
-
-   /**
-    * Generate picture
-    *
-    * @param dotName   The .dot file name
-    * @param pngName   The .png file name
-    * @param directory The directory
-    */
-   protected boolean generatePicture(String dotName, String pngName, File directory)
-   {
-      try
-      {
-         ProcessBuilder pb = new ProcessBuilder();
-         pb = pb.command(graphvizDot, "-Tpng", dotName, "-o", pngName);
-         pb = pb.directory(directory);
-
-         Process proc = pb.redirectErrorStream(true).start();
-
-         BufferedReader out = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-         BufferedReader err = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-         String l;
-
-         /*
-         while ((l = out.readLine()) != null)
-         {
-            System.err.println(l);
-         }
-
-         while ((l = err.readLine()) != null)
-         {
-            System.err.println(l);
-         }
-         */
-
-         proc.waitFor();
-
-         if (proc.exitValue() != 0)
-         {
-            return false;
-         }
-
-         return true;
-      }
-      catch (InterruptedException ie)
-      {
-         Thread.interrupted();
-      }
-      catch (IOException ioe)
-      {
-         System.err.println(ioe.getMessage());
-      }
-
-      return false;
-   }
+  
 }

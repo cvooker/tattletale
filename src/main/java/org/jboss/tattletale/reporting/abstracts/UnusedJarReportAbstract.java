@@ -30,6 +30,7 @@ import java.util.Iterator;
 
 import org.jboss.tattletale.reporting.common.*;
 import org.jboss.tattletale.reporting.interfaces.*;
+import org.jboss.tattletale.reporting.xml.KeyFilter;
 /**
  * A report that shows unused JAR archives
  *
@@ -49,128 +50,7 @@ public abstract class UnusedJarReportAbstract extends AbstractReport
       super(DIRECTORY, ReportSeverity.WARNING, NAME, DIRECTORY);
    }
 
-   /**
-    * Write out the report's content
-    *
-    * @param bw the writer to use
-    * @throws IOException if an error occurs
-    *
-   public void writeHtmlBodyContent(BufferedWriter bw) throws IOException
-   {
-      bw.write("<elements>" + Dump.newLine());
-
-    
-      //bw.write("     <th>Archive</th>" + Dump.newLine());
-      //bw.write("     <th>Used</th>" + Dump.newLine());
-     
-
-      boolean odd = true;
-      int used = 0;
-      int unused = 0;
-
-      for (Archive archive : archives)
-      {
-         boolean archiveStatus = false;
-
-         String archiveName = archive.getName();
-         int finalDot = archiveName.lastIndexOf(".");
-         String extension = archiveName.substring(finalDot + 1);
-
-         Iterator<Archive> it = archives.iterator();
-         while (!archiveStatus && it.hasNext())
-         {
-            Archive a = it.next();
-
-            if (!archive.getName().equals(a.getName()))
-            {
-               Iterator<String> sit = a.getRequires().iterator();
-               while (!archiveStatus && sit.hasNext())
-               {
-                  String require = sit.next();
-
-                  if (archive.getProvides().keySet().contains(require))
-                  {
-                     archiveStatus = true;
-                  }
-               }
-            }
-         }
-
-
-       
-          bw.write("  <element>" + Dump.newLine());
-        
-         
-         bw.write("     <Archive>../" + extension + "/" + archiveName +
-                  ".xml" + archiveName + "</Archive>" + Dump.newLine());
-
-         if (archiveStatus)
-         {
-            bw.write("     <Used>Yes</Used>" + Dump.newLine());
-            used++;
-         }
-         else
-         {
-            unused++;
-
-            if (!isFiltered(archive.getName()))
-            {
-               status = ReportStatus.YELLOW;
-               bw.write("     <Used>No</Used>" + Dump.newLine());
-            }
-            else
-            {
-               bw.write("     <Used>No</Used>" + Dump.newLine());
-            }
-         }
-
-         bw.write("  </element>" + Dump.newLine());
-
-         odd = !odd;
-      }
-
-      bw.write("</elements>" + Dump.newLine());
-
-      bw.write(Dump.newLine());
-     
-
-      bw.write("<elements>" + Dump.newLine());
-
-    
-      //bw.write("     <th>Status</th>" + Dump.newLine());
-      //bw.write("     <th>Archives</th>" + Dump.newLine());
-      
-
-      bw.write("  <element>" + Dump.newLine());
-      bw.write("     <Status>Used</Status>" + Dump.newLine());
-      bw.write("     <Archives>" + used + "</Archives>" + Dump.newLine());
-      bw.write("  </element>" + Dump.newLine());
-
-      bw.write("  <element>" + Dump.newLine());
-      bw.write("     <Status>Unused</Status>" + Dump.newLine());
-      bw.write("     <Archives>" + unused + "</Archives>" + Dump.newLine());
-      bw.write("  </element>" + Dump.newLine());
-
-      bw.write("</elements>" + Dump.newLine());
-   }
-
-   /**
-    * write out the header of the report's content
-    *
-    * @param bw the writer to use
-    * @throws IOException if an errror occurs
-    *
-   public void writeHtmlBodyHeader(BufferedWriter bw) throws IOException
-   {
-      bw.write("<reporting>" + Dump.newLine());
-      bw.write(Dump.newLine());
-
-      bw.write("<h1>" + NAME + "</h1>" + Dump.newLine());
-
-      bw.write("../index.xml" + Dump.newLine());
-      
-   }
-*/
+ 
    /**
     * Create filter
     *

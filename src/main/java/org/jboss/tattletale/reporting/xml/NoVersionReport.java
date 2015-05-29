@@ -19,12 +19,13 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.tattletale.reporting.abstracts;
+package org.jboss.tattletale.reporting.xml;
 
 import org.jboss.tattletale.core.Archive;
 import org.jboss.tattletale.core.Location;
 import org.jboss.tattletale.core.NestableArchive;
 import org.jboss.tattletale.reporting.abstracts.AbstractReport;
+import org.jboss.tattletale.reporting.abstracts.NoVersionReportAbstract;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -34,14 +35,13 @@ import java.util.SortedSet;
 
 import org.jboss.tattletale.reporting.common.*;
 import org.jboss.tattletale.reporting.interfaces.*;
-import org.jboss.tattletale.reporting.xml.KeyFilter;
 /**
  * Multiple locations report
  *
  * @author Jesper Pedersen <jesper.pedersen@jboss.org>
  * @author <a href="mailto:torben.jaeger@jit-consulting.de">Torben Jaeger</a>
  */
-public class NoVersionReportAbstract extends AbstractReport
+public class NoVersionReport extends NoVersionReportAbstract
 {
    /** NAME */
    private static final String NAME = "No version";
@@ -50,27 +50,23 @@ public class NoVersionReportAbstract extends AbstractReport
    private static final String DIRECTORY = "noversion";
 
    /** Constructor */
-   public NoVersionReportAbstract()
-   {
-      super(DIRECTORY, ReportSeverity.ERROR, NAME, DIRECTORY);
-   }
-
+  
    /**
     * write out the report's content
     *
     * @param bw the writer to use
     * @throws IOException if an error occurs
     */
-   public void writeHtmlBodyContent(BufferedWriter bw) throws IOException
+   public void writeBodyContent(BufferedWriter bw) throws IOException
    {
-      bw.write("<elements>" + DumpAbstract.newLine());
+      bw.write("<elements>" + Dump.newLine());
 
      
-      //bw.write("     <th>Name</th>" + DumpAbstract.newLine());
-      //bw.write("     <th>Location</th>" + DumpAbstract.newLine());
+      //bw.write("     <th>Name</th>" + Dump.newLine());
+      //bw.write("     <th>Location</th>" + Dump.newLine());
   
       recursivelyWriteContent(bw, archives);
-      bw.write("</elements>" + DumpAbstract.newLine());
+      bw.write("</elements>" + Dump.newLine());
    }
 
    private void recursivelyWriteContent(BufferedWriter bw, Collection<Archive> archives) throws IOException
@@ -113,23 +109,23 @@ public class NoVersionReportAbstract extends AbstractReport
             if (include)
             {
                
-                bw.write("  <element>" + DumpAbstract.newLine());
+                bw.write("  <element>" + Dump.newLine());
               
               
                bw.write("     <Name>../jar/" + archive.getName() + ".xml" +
-                        archive.getName() + "</Name>" + DumpAbstract.newLine());
+                        archive.getName() + "</Name>" + Dump.newLine());
                bw.write("     <Location>");
 
-               bw.write("       <table>" + DumpAbstract.newLine());
+               bw.write("       <table>" + Dump.newLine());
 
                lit = locations.iterator();
                while (lit.hasNext())
                {
                   location = lit.next();
 
-                  bw.write("      <tr>" + DumpAbstract.newLine());
+                  bw.write("      <tr>" + Dump.newLine());
 
-                  bw.write("        <td>" + location.getFilename() + "</td>" + DumpAbstract.newLine());
+                  bw.write("        <td>" + location.getFilename() + "</td>" + Dump.newLine());
                   if (!filtered)
                   {
                      bw.write("        <td>");
@@ -146,15 +142,15 @@ public class NoVersionReportAbstract extends AbstractReport
                   {
                      bw.write("<i>Not listed</i>");
                   }
-                  bw.write("</td>" + DumpAbstract.newLine());
+                  bw.write("</td>" + Dump.newLine());
 
-                  bw.write("      </tr>" + DumpAbstract.newLine());
+                  bw.write("      </tr>" + Dump.newLine());
                }
 
-               bw.write("       </table>" + DumpAbstract.newLine());
+               bw.write("       </table>" + Dump.newLine());
 
-               bw.write("</Location>" + DumpAbstract.newLine());
-               bw.write("  </element>" + DumpAbstract.newLine());
+               bw.write("</Location>" + Dump.newLine());
+               bw.write("  </element>" + Dump.newLine());
 
                odd = !odd;
             }
@@ -169,14 +165,14 @@ public class NoVersionReportAbstract extends AbstractReport
     * @param bw the writer to use
     * @throws IOException if an error occurs
     */
-   public void writeHtmlBodyHeader(BufferedWriter bw) throws IOException
+   public void writeBodyHeader(BufferedWriter bw) throws IOException
    {
-      bw.write("<reporting>" + DumpAbstract.newLine());
-      bw.write(DumpAbstract.newLine());
+      bw.write("<reporting>" + Dump.newLine());
+      bw.write(Dump.newLine());
 
-      bw.write("<h1>" + NAME + "</h1>" + DumpAbstract.newLine());
+      bw.write("<h1>" + NAME + "</h1>" + Dump.newLine());
 
-      bw.write("../index.xml" + DumpAbstract.newLine());
+      bw.write("../index.xml" + Dump.newLine());
      
    }
 

@@ -23,8 +23,8 @@
 package org.jboss.tattletale.reporting.abstracts;
 
 import org.jboss.tattletale.core.NestableArchive;
-import org.jboss.tattletale.reporting.common.ReportSeverity;
 import org.jboss.tattletale.reporting.common.*;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 
@@ -41,10 +41,6 @@ public abstract class EarReportAbstract extends NestableReportAbstract
 
    /** File name */
    private String fileName;
-
-   /*
-    * Constructor
-    * @param archive  The archive
     
    public EarReport(NestableArchive archive)
    {
@@ -52,7 +48,7 @@ public abstract class EarReportAbstract extends NestableReportAbstract
       StringBuffer sb = new StringBuffer(archive.getName());
       setFilename(sb.append(".html").toString());
    }
-*/
+
    /**
     * Get the name of the directory
     * @return - the directory

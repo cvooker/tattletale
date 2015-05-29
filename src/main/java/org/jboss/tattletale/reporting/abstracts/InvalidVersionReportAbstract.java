@@ -35,6 +35,7 @@ import org.jboss.tattletale.reporting.abstracts.AbstractReport;
 import org.jboss.tattletale.reporting.common.ReportSeverity;
 import org.jboss.tattletale.reporting.common.ReportStatus;
 import org.jboss.tattletale.reporting.interfaces.Filter;
+import org.jboss.tattletale.reporting.xml.KeyFilter;
 /**
  * Multiple locations report
  *
@@ -55,103 +56,8 @@ public abstract class InvalidVersionReportAbstract extends AbstractReport
       super(DIRECTORY, ReportSeverity.WARNING, NAME, DIRECTORY);
    }
 
-   /**
-    * write out the report's content
-    *
-    * @param bw the writer to use
-    *
-    * @throws IOException if an error occurs
-    
-   public void writeHtmlBodyContent(BufferedWriter bw) throws IOException
-   {
-      bw.write("<elements>" + Dump.newLine());
 
-    
-      //bw.write("     <th>Name</th>" + Dump.newLine());
-      //bw.write("     <th>Location</th>" + Dump.newLine());
-    
-
-      boolean odd = true;
-
-      for (Archive archive : archives)
-      {
-         String archiveName = archive.getName();
-         int finalDot = archiveName.lastIndexOf(".");
-         String extension = archiveName.substring(finalDot + 1);
-
-         SortedSet<Location> locations = getLocations(archive);
-         Iterator<Location> lit = locations.iterator();
-
-         Location location = lit.next();
-         String version = location.getVersion();
-
-         if (version != null && !version.matches("\\d+(\\.\\d+(\\.\\d+(\\.[0-9a-zA-Z\\_\\-]+)?)?)?"))
-         {
-            boolean filtered = isFiltered(archive.getName());
-
-            if (!filtered)
-            {
-               status = ReportStatus.RED;
-            }
-
-            if (odd)
-            {
-               bw.write("  <element class=\"rowodd\">" + Dump.newLine());
-            }
-            else
-            {
-               bw.write("  <element class=\"roweven\">" + Dump.newLine());
-            }
-            bw.write("     <Name>../" + extension + "/" + archiveName + ".xml" + archiveName
-                  + "</Name>" + Dump.newLine());
-            bw.write("     <Location>");
-
-            bw.write("       <table>" + Dump.newLine());
-
-            lit = locations.iterator();
-            while (lit.hasNext())
-            {
-               location = lit.next();
-
-               bw.write("      <tr>" + Dump.newLine());
-
-               bw.write("        <td>" + location.getFilename() + "</td>" + Dump.newLine());
-               if (!filtered)
-               {
-                  bw.write("        <td>");
-               }
-               else
-               {
-                  bw.write("        <td>");
-               }
-               if (location.getVersion() != null)
-               {
-                  bw.write(location.getVersion());
-               }
-               else
-               {
-                  bw.write("<i>Not listed</i>");
-               }
-               bw.write("</td>" + Dump.newLine());
-
-               bw.write("      </tr>" + Dump.newLine());
-            }
-
-            bw.write("       </table>" + Dump.newLine());
-
-            bw.write("</Location>" + Dump.newLine());
-            bw.write("  </element>" + Dump.newLine());
-
-            odd = !odd;
-         }
-
-        
-      }
-      bw.write("</elements>" + Dump.newLine());
-   }
-
-*/
-   private SortedSet<Location> getLocations(Archive archive)
+   protected SortedSet<Location> getLocations(Archive archive)
    {
       SortedSet<Location> locations = new TreeSet<Location>();
       if (archive instanceof NestableArchive)
@@ -171,23 +77,6 @@ public abstract class InvalidVersionReportAbstract extends AbstractReport
       return locations;
    }
 
-   /**
-    * write out the header of the report's content
-    *
-    * @param bw the writer to use
-    *
-    * @throws IOException if an errror occurs
-    
-   public void writeHtmlBodyHeader(BufferedWriter bw) throws IOException
-   {
-      bw.write("<reporting>" + Dump.newLine());
-      bw.write(Dump.newLine());
-
-      bw.write("<h1>" + NAME + "</h1>" + Dump.newLine());
-
-      bw.write("../index.xml" + Dump.newLine());
-    
-   }
 
    /**
     * Create filter
@@ -197,6 +86,6 @@ public abstract class InvalidVersionReportAbstract extends AbstractReport
    @Override
    protected Filter createFilter()
    {
-      return new KeyFilterAbstract();
+	   return new KeyFilter();
    }
 }

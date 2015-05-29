@@ -19,68 +19,55 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.tattletale.reporting.abstracts;
 
-import org.jboss.tattletale.Version;
-import org.jboss.tattletale.core.Archive;
-import org.jboss.tattletale.core.Location;
+package org.jboss.tattletale.reporting.xml;
+
+import org.jboss.tattletale.core.NestableArchive;
+import org.jboss.tattletale.reporting.abstracts.EarReportAbstract;
+import org.jboss.tattletale.reporting.common.*;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.Map;
 
-import javassist.bytecode.ClassFile;
-import org.jboss.tattletale.reporting.common.*;
+
+
 /**
- * JAR report
- *
- * @author Jesper Pedersen <jesper.pedersen@jboss.org>
- * @author <a href="mailto:torben.jaeger@jit-consulting.de">Torben Jaeger</a>
+ * This type of report is to .ear files as to {@link JarReport} is to .jar files.
+ * @author Navin Surtani
  */
-public abstract class JarReportAbstract extends ArchiveReport
+public class EarReport extends EarReportAbstract
 {
    /** DIRECTORY */
-   private static final String DIRECTORY = "jar";
+   private static final String DIRECTORY = "ear";
 
    /** File name */
-   private String filename;
+   private String fileName;
 
-   /** The level of depth from the main output directory that this jar report would sit */
-   private int depth;
-
+   
    /**
-    * Constructor
-    *
-    * @param archive The archive
-    */
-   public JarReportAbstract(Archive archive,int i) 
-   {
-      this(archive, 1);
-   }
-
-
-   /**
-    * returns a Jar report specific writer.
-    * Jar reports don't use a index.html but a html per archive.
-    *
-    * @return the BufferedWriter
-    * @throws IOException if an error occurs
+    * Get the name of the directory
+    * @return - the directory
     */
    @Override
-   protected BufferedWriter getBufferedWriter() throws IOException
+   public String getDirectory()
+   {
+      return DIRECTORY;
+   }
+   
+   @Override
+    protected BufferedWriter getBufferedWriter() throws IOException
    {
       return getBufferedWriter(getFilename());
    }
 
    private String getFilename()
    {
-      return filename;
+      return fileName;
    }
 
-   private void setFilename(String filename)
+   private void setFilename(String fileName)
    {
-      this.filename = filename;
+      this.fileName = fileName;
    }
-   
+
 }
