@@ -40,6 +40,7 @@ import java.util.TreeMap;
 
 import org.jboss.tattletale.reporting.common.*;
 import org.jboss.tattletale.reporting.interfaces.*;
+import org.jboss.tattletale.reporting.xml.KeyFilter;
 
 /**
  * OSGi report
@@ -101,20 +102,20 @@ public abstract class OSGiReportAbstract extends AbstractReport
          for (String s : archive.getManifest())
          {
             mbw.write(s);
-            mbw.write(Dump.newLine());
+            mbw.write(DumpAbstract.newLine());
          }
       }
 
       if (!archive.isOSGi() && osgiInformation != null && osgiInformation.size() > 0)
       {
-         mbw.write(Dump.newLine());
-         mbw.write("### OSGi information" + Dump.newLine());
+         mbw.write(DumpAbstract.newLine());
+         mbw.write("### OSGi information" + DumpAbstract.newLine());
          for (String anOsgiInformation : osgiInformation)
          {
             if (anOsgiInformation.length() <= 69)
             {
                mbw.write(anOsgiInformation);
-               mbw.write(Dump.newLine());
+               mbw.write(DumpAbstract.newLine());
             }
             else
             {
@@ -129,13 +130,13 @@ public abstract class OSGiReportAbstract extends AbstractReport
                   }
                   else
                   {
-                     mbw.write(Dump.newLine());
+                     mbw.write(DumpAbstract.newLine());
                      mbw.write(' ');
                      mbw.write(c);
                      count = 2;
                   }
                }
-               mbw.write(Dump.newLine());
+               mbw.write(DumpAbstract.newLine());
             }
          }
       }
@@ -151,42 +152,42 @@ public abstract class OSGiReportAbstract extends AbstractReport
 
       FileWriter rfw = new FileWriter(archiveOutput.getAbsolutePath() + File.separator + "index.xml");
       BufferedWriter rbw = new BufferedWriter(rfw, 8192);
-      rbw.write("<?xml version=\"1.0\" encoding=\"utf-8\"?> "+ Dump.newLine());
-      rbw.write("<main>" + Dump.newLine());
-      rbw.write("<info>" + Dump.newLine());
+      rbw.write("<?xml version=\"1.0\" encoding=\"utf-8\"?> "+ DumpAbstract.newLine());
+      rbw.write("<main>" + DumpAbstract.newLine());
+      rbw.write("<info>" + DumpAbstract.newLine());
       rbw.write("  <title>" + Version.FULL_VERSION + ": " + NAME + " - " + archive.getName()
-               + "</title>" + Dump.newLine());
+               + "</title>" + DumpAbstract.newLine());
     
-      rbw.write("</info>" + Dump.newLine());
-      rbw.write("<reporting>" + Dump.newLine());
-      rbw.write(Dump.newLine());
+      rbw.write("</info>" + DumpAbstract.newLine());
+      rbw.write("<reporting>" + DumpAbstract.newLine());
+      rbw.write(DumpAbstract.newLine());
 
-      rbw.write("<h1>" + NAME + " - " + archive.getName() + "</h1>" + Dump.newLine());
+      rbw.write("<h1>" + NAME + " - " + archive.getName() + "</h1>" + DumpAbstract.newLine());
 
-      rbw.write("../index.xml" + Dump.newLine());
+      rbw.write("../index.xml" + DumpAbstract.newLine());
      
 
-      rbw.write("<elements>" + Dump.newLine());
+      rbw.write("<elements>" + DumpAbstract.newLine());
 
     
-      //rbw.write("     <th>Field</th>" + Dump.newLine());
-      //rbw.write("     <th>Value</th>" + Dump.newLine());
+      //rbw.write("     <th>Field</th>" + DumpAbstract.newLine());
+      //rbw.write("     <th>Value</th>" + DumpAbstract.newLine());
      
 
-      rbw.write("  <element>" + Dump.newLine());
-      rbw.write("     <t>OSGi</t>" + Dump.newLine());
+      rbw.write("  <element>" + DumpAbstract.newLine());
+      rbw.write("     <t>OSGi</t>" + DumpAbstract.newLine());
       if (archive.isOSGi())
       {
-         rbw.write("     <Status>Yes</Status>" + Dump.newLine());
+         rbw.write("     <Status>Yes</Status>" + DumpAbstract.newLine());
       }
       else
       {
-         rbw.write("     <Status>No</Status>" + Dump.newLine());
+         rbw.write("     <Status>No</Status>" + DumpAbstract.newLine());
       }
-      rbw.write("  </element>" + Dump.newLine());
+      rbw.write("  </element>" + DumpAbstract.newLine());
 
-      rbw.write("  <element>" + Dump.newLine());
-      rbw.write("     <Field>Manifest</Field>" + Dump.newLine());
+      rbw.write("  <element>" + DumpAbstract.newLine());
+      rbw.write("     <Field>Manifest</Field>" + DumpAbstract.newLine());
       rbw.write("     <Value>");
 
       if (archive.getManifest() != null)
@@ -197,13 +198,13 @@ public abstract class OSGiReportAbstract extends AbstractReport
          }
       }
 
-      rbw.write("</Value>" + Dump.newLine());
-      rbw.write("  </element>" + Dump.newLine());
+      rbw.write("</Value>" + DumpAbstract.newLine());
+      rbw.write("  </element>" + DumpAbstract.newLine());
 
       if (!archive.isOSGi())
       {
-         rbw.write("  <element>" + Dump.newLine());
-         rbw.write("     <Field>OSGi Manifest</Field>" + Dump.newLine());
+         rbw.write("  <element>" + DumpAbstract.newLine());
+         rbw.write("     <Field>OSGi Manifest</Field>" + DumpAbstract.newLine());
          rbw.write("     <Value>");
 
          if (osgiInformation != null && osgiInformation.size() > 0)
@@ -215,18 +216,18 @@ public abstract class OSGiReportAbstract extends AbstractReport
             }
          }
 
-         rbw.write("</Value>" + Dump.newLine());
-         rbw.write("  </element>" + Dump.newLine());
+         rbw.write("</Value>" + DumpAbstract.newLine());
+         rbw.write("  </element>" + DumpAbstract.newLine());
       }
 
-      rbw.write("</elements>" + Dump.newLine());
+      rbw.write("</elements>" + DumpAbstract.newLine());
 
-      rbw.write(Dump.newLine());
+      rbw.write(DumpAbstract.newLine());
      
       rbw.write("Generated by:  http://www.jboss.org/tattletale");
-      rbw.write(Dump.newLine());
-      rbw.write("</reporting>" + Dump.newLine());
-      rbw.write("</main>" + Dump.newLine());
+      rbw.write(DumpAbstract.newLine());
+      rbw.write("</reporting>" + DumpAbstract.newLine());
+      rbw.write("</main>" + DumpAbstract.newLine());
 
       rbw.flush();
       rbw.close();
@@ -422,13 +423,13 @@ public abstract class OSGiReportAbstract extends AbstractReport
     *
    public void writeHtmlBodyContent(BufferedWriter bw) throws IOException
    {
-      bw.write("<elements>" + Dump.newLine());
+      bw.write("<elements>" + DumpAbstract.newLine());
 
      
-     /* bw.write("     <th>Archive</th>" + Dump.newLine());
-      bw.write("     <th>OSGi</th>" + Dump.newLine());
-      bw.write("     <th>Report</th>" + Dump.newLine());
-      bw.write("     <th>Manifest</th>" + Dump.newLine());*
+     /* bw.write("     <th>Archive</th>" + DumpAbstract.newLine());
+      bw.write("     <th>OSGi</th>" + DumpAbstract.newLine());
+      bw.write("     <th>Report</th>" + DumpAbstract.newLine());
+      bw.write("     <th>Manifest</th>" + DumpAbstract.newLine());*
  
 
       boolean odd = true;
@@ -443,14 +444,14 @@ public abstract class OSGiReportAbstract extends AbstractReport
          String extension = archiveName.substring(finalDot + 1);
 
          
-         bw.write("  <element>" + Dump.newLine());
+         bw.write("  <element>" + DumpAbstract.newLine());
         
         
          bw.write("     <Archive>../" + extension + "/" + archiveName + ".xml" +
-                  archiveName + "</Archive>" + Dump.newLine());
+                  archiveName + "</Archive>" + DumpAbstract.newLine());
          if (archive.isOSGi())
          {
-            bw.write("     <OSGi>Yes</OSGi>" + Dump.newLine());
+            bw.write("     <OSGi>Yes</OSGi>" + DumpAbstract.newLine());
             osgiReady++;
          }
          else
@@ -460,43 +461,43 @@ public abstract class OSGiReportAbstract extends AbstractReport
             if (!isFiltered(archiveName))
             {
                status = ReportStatus.RED;
-               bw.write("     <OSGi>No</OSGi>" + Dump.newLine());
+               bw.write("     <OSGi>No</OSGi>" + DumpAbstract.newLine());
             }
             else
             {
-               bw.write("     <OSGi>No</OSGi>" + Dump.newLine());
+               bw.write("     <OSGi>No</OSGi>" + DumpAbstract.newLine());
             }
          }
-         bw.write("     <Report>" + archiveName + "/index.xml</Report>" + Dump.newLine());
-         bw.write("     <Manifest>" + archiveName + "/MANIFEST.MF</Manifest>" + Dump.newLine());
-         bw.write("  </element>" + Dump.newLine());
+         bw.write("     <Report>" + archiveName + "/index.xml</Report>" + DumpAbstract.newLine());
+         bw.write("     <Manifest>" + archiveName + "/MANIFEST.MF</Manifest>" + DumpAbstract.newLine());
+         bw.write("  </element>" + DumpAbstract.newLine());
 
          odd = !odd;
       }
 
-      bw.write("</elements>" + Dump.newLine());
+      bw.write("</elements>" + DumpAbstract.newLine());
 
-      bw.write(Dump.newLine());
+      bw.write(DumpAbstract.newLine());
       
 
-      bw.write("<elements>" + Dump.newLine());
+      bw.write("<elements>" + DumpAbstract.newLine());
 
-      bw.write("  <element>" + Dump.newLine());
-      //bw.write("     <th>Status</th>" + Dump.newLine());
-      //bw.write("     <th>Archives</th>" + Dump.newLine());
-      bw.write("  </element>" + Dump.newLine());
+      bw.write("  <element>" + DumpAbstract.newLine());
+      //bw.write("     <th>Status</th>" + DumpAbstract.newLine());
+      //bw.write("     <th>Archives</th>" + DumpAbstract.newLine());
+      bw.write("  </element>" + DumpAbstract.newLine());
 
-      bw.write("  <element class=\"rowodd\">" + Dump.newLine());
-      bw.write("     <Status>Ready</Status>" + Dump.newLine());
-      bw.write("     <Archives>" + osgiReady + "</Archives>" + Dump.newLine());
-      bw.write("  </element>" + Dump.newLine());
+      bw.write("  <element class=\"rowodd\">" + DumpAbstract.newLine());
+      bw.write("     <Status>Ready</Status>" + DumpAbstract.newLine());
+      bw.write("     <Archives>" + osgiReady + "</Archives>" + DumpAbstract.newLine());
+      bw.write("  </element>" + DumpAbstract.newLine());
 
-      bw.write("  <element class=\"roweven\">" + Dump.newLine());
-      bw.write("     <Status>Not ready</Status>" + Dump.newLine());
-      bw.write("     <Archives>" + osgiNotReady + "</Archives>" + Dump.newLine());
-      bw.write("  </element>" + Dump.newLine());
+      bw.write("  <element class=\"roweven\">" + DumpAbstract.newLine());
+      bw.write("     <Status>Not ready</Status>" + DumpAbstract.newLine());
+      bw.write("     <Archives>" + osgiNotReady + "</Archives>" + DumpAbstract.newLine());
+      bw.write("  </element>" + DumpAbstract.newLine());
 
-      bw.write("</elements>" + Dump.newLine());
+      bw.write("</elements>" + DumpAbstract.newLine());
    }
 
    /**
@@ -507,12 +508,12 @@ public abstract class OSGiReportAbstract extends AbstractReport
     *
    public void writeHtmlBodyHeader(BufferedWriter bw) throws IOException
    {
-      bw.write("<reporting>" + Dump.newLine());
-      bw.write(Dump.newLine());
+      bw.write("<reporting>" + DumpAbstract.newLine());
+      bw.write(DumpAbstract.newLine());
 
-      bw.write("<h1>" + NAME + "</h1>" + Dump.newLine());
+      bw.write("<h1>" + NAME + "</h1>" + DumpAbstract.newLine());
 
-      bw.write("../index.xml" + Dump.newLine());
+      bw.write("../index.xml" + DumpAbstract.newLine());
      
    }
 */

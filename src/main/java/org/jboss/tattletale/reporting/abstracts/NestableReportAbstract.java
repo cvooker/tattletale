@@ -43,7 +43,7 @@ import javassist.bytecode.ClassFile;
  */
 public abstract class NestableReportAbstract extends ArchiveReport
 {
-   private NestableArchive nestableArchive;
+   protected NestableArchive nestableArchive;
 
    /**
     * Constructor
@@ -52,6 +52,8 @@ public abstract class NestableReportAbstract extends ArchiveReport
     * @param severity            The severity
     * @param nestableArchive     The nestable archive
     */
+   
+   
    public NestableReportAbstract(String id, int severity, NestableArchive nestableArchive)
    {
       super(id, severity, nestableArchive);

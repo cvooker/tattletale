@@ -42,13 +42,6 @@ public abstract class EarReportAbstract extends NestableReportAbstract
    /** File name */
    private String fileName;
     
-   public EarReport(NestableArchive archive)
-   {
-      super(DIRECTORY, ReportSeverity.INFO, archive);
-      StringBuffer sb = new StringBuffer(archive.getName());
-      setFilename(sb.append(".html").toString());
-   }
-
    /**
     * Get the name of the directory
     * @return - the directory

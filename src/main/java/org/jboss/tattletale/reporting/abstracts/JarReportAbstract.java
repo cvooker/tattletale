@@ -48,16 +48,17 @@ public abstract class JarReportAbstract extends ArchiveReport
 
    /** The level of depth from the main output directory that this jar report would sit */
    private int depth;
-
-   /**
-    * Constructor
-    *
-    * @param archive The archive
-    */
+   
+   public JarReportAbstract(Archive archive) 
+   {
+      this(archive, 1);
+   }
+   
    public JarReportAbstract(Archive archive,int i) 
    {
       this(archive, 1);
    }
+  
 
 
    /**

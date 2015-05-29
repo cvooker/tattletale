@@ -67,7 +67,7 @@ import org.jboss.tattletale.reporting.xml.SignReport;
 import org.jboss.tattletale.reporting.xml.TransitiveDependantsReport;
 import org.jboss.tattletale.reporting.xml.TransitiveDependsOnReport;
 import org.jboss.tattletale.reporting.xml.UnusedJarReport;
-import org.jboss.tattletale.reporting.xml.WarReport;
+import org.jboss.tattletale.reporting.xml.*;
 import org.jboss.tattletale.reporting.interfaces.Report;
 import org.jboss.tattletale.utils.Configuration;
 

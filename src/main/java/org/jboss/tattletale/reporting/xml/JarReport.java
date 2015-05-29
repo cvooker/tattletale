@@ -47,6 +47,9 @@ public class JarReport extends JarReportAbstract
 	public JarReport(Archive archive, int i) {
 	this(archive, 1);
 	}
+	public JarReport(Archive archive) {
+		this(archive, 1);
+		}
 
 /** DIRECTORY */
    private static final String DIRECTORY = "jar";
